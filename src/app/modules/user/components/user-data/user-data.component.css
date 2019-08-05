@@ -1,0 +1,21 @@
+.user{
+  display: flex;
+  max-width: 500px;
+}
+
+.user__avatar{
+
+}
+.user__information{
+  flex: auto;
+}
+
+@media screen and (max-width: 500px) {
+  .user{
+    display: block;
+    text-align: center;
+  }
+  .user__avatar{
+    text-align: center;
+  }
+}

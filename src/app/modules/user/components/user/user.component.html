@@ -1,0 +1,8 @@
+<section class="user_page">
+  <div class="user_page__back">
+    <button  mat-raised-button (click)="back()">Back</button>
+  </div>
+  <div class="user_page__info" *ngIf="user">
+    <app-user-data [user]="user"></app-user-data>
+  </div>
+</section>

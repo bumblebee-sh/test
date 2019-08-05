@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserInterface } from '../../../../interfaces';
-import { ApiService } from '../../../core/services';
+import { UserInterface } from '@app/interfaces';
+import { ApiService } from '@app/modules/core/services';
 
 @Component({
   selector: 'app-user',

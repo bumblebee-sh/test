@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { PageEvent } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs/operators';
-import { UserInterface } from '../../../../interfaces';
+import { MatPaginator } from '@angular/material';
+
+import { UserInterface } from '@app/interfaces';
 import { ApiService } from '../../../core/services';
 
 @Component({
@@ -11,33 +12,31 @@ import { ApiService } from '../../../core/services';
   styleUrls: ['./users-list.component.css']
 })
 export class UsersListComponent implements OnInit {
-
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedColumns = ['first_name', 'last_name', 'email'];
   userList: any[] = [];
   pagesCount: number;
+  pageSize = 3;
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private router: Router) {
-  }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private apiService: ApiService,
+    private router: Router) {}
 
   ngOnInit() {
-    this.activatedRoute.data.pipe(
-      map(data => data.users)
-    )
-      .subscribe((users: UserInterface[]) => {
-        this.userList = users;
-      });
-
-    this.activatedRoute.data.pipe(
-      map(data => data.paginationInfo)
-    )
-      .subscribe(paginationInfo => {
-        this.pagesCount = paginationInfo.total;
-      })
+    this.activatedRoute.data
+    .subscribe((pagination: any) => {
+      this.pagesCount = pagination.paginationInfo.total;
+      this.paginator.pageIndex = pagination.users.page - 1;
+      this.userList = pagination.users.data;
+    });
   }
 
   pageChanged(event: PageEvent): void {
     let page: number = event.pageIndex + 1;
+    this.apiService.fetchUsers(page).subscribe(res => {
+      this.userList = res.data;
+    });
     this.router.navigate(['./'], { queryParams: { page } });
   }
 

@@ -1,0 +1,9 @@
+
+.user_list{
+  width: 100%;
+}
+
+.user_list tr:hover{
+  cursor: pointer;
+  background: #e2e2e2;
+}
